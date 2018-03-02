@@ -1,37 +1,30 @@
-## Welcome to GitHub Pages
+论文Drizzle阅读：
 
-You can use the [editor on GitHub](https://github.com/hust-wuwechao/paper-remarks/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+基于记录的实时流处理： 处理块，但是一旦出现错误需要全部重新提交执行，
+         或者从一个很远的checkpoint恢复，时间很长。
+基于微批的处理系统：   处理时间长，但是基于BSP模型的天然具有很好checkpoint和容错点，
+         基于血统机制可以很好利用
+数据周期：   记录还是微批
+协调周期：  1    用于容错，
+           2    对于负载发生改变做出的调整（比如执行计划改变，operator与节点的映射关系改变）
+           3    用于处理stragger 问题
+           
+           
+ 本文创新：
+        1   解耦处理周期和协调周期，处理用小周期，协调用大周期
+              理由：  负载的变化相对于记录的到达不会那么快。也没有必要做出这么快的响应
+            
+        2     采用基于spark stream流的微批次机制，可以利用批次的向量话技术，以及查询优化技术
+        
+        
+        3    对于调度： 1） 成组调度  采用处理采用微批， 而调度采用多个微批构成group一起来调度。
+             减少集中式瓶颈以及分摊调度协调的开销
+                       2）预先调度，对于后面的节点任务需要依赖于前面的节点任务完成。可以提前调度这个任务到
+                          后面的节点的队列里面，通过完成后机器通知来进一步调度。
+                          
+                        细节问题： group大小如何选择问题
+         
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
-### Markdown
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/hust-wuwechao/paper-remarks/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.

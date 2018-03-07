@@ -1,0 +1,10 @@
+《Efficient Shuffle Management with SCache for DAG Computing Frameworks》
+ 优化DAG系统诸如spark之间stage之间的shuffle write和shuffle read
+ 主要的思想是能够协调shuffle write和read读写资源的利用以及避免shuffle read的突发
+ 采用的主要技术手段是：
+ 依据依赖进行依赖分析，预调度以及预取相结合
+ 同时需要对预取的数据的大小进行预测。方便对任务做出负载均衡
+  ![image](https://github.com/ButBueatiful/dotvim/raw/master/screenshots/vim-screenshot.jpg)
+  
+ 
+  
